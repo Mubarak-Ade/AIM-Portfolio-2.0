@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#05070A" />
+    <script>
+      // Resolve the theme before first paint so dark mode never flashes light.
+      // The site is dark-first: only an explicit saved "light" switches it.
+      ;(() => {
+        try {
+          const stored = localStorage.getItem('theme')
+          const dark = stored ? stored === 'dark' : true
+          document.documentElement.classList.toggle('dark', dark)
+          document
+            .querySelector('meta[name="theme-color"]')
+            ?.setAttribute('content', dark ? '#05070A' : '#F4F6F9')
+        } catch {
+          // Storage can be unavailable; the CSS default is the dark theme.
+        }
+      })()
+    </script>
+    <meta
+      name="description"
+      content="Mubaraq Ibrahim (AIM) is a full-stack developer in Kano, Nigeria, building web products from data model to shipped interface."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="AIM — Full-stack developer" />
+    <meta
+      property="og:description"
+      content="Full-stack products that hold up after launch. Selected work in React, Node, PostgreSQL and MongoDB."
+    />
+    <meta property="og:locale" content="en_NG" />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/aim-portrait.webp"
+      media="(min-width: 761px)"
+      fetchpriority="high"
+    />
+    <title>AIM — Full-stack developer</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

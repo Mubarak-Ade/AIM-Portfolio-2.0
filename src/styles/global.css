@@ -1,0 +1,441 @@
+@import 'tailwindcss';
+
+/*
+ * AIM portfolio — dark-first editorial system.
+ *
+ * The palette follows the Stitch reference (near-black page, sky accent,
+ * slate copy) and the light theme is a paper counterpart built from the same
+ * semantic tokens. Components never reach for raw hex values, so the theme
+ * toggle keeps working across every route.
+ */
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  color-scheme: light;
+
+  --paper: #f4f6f9;
+  --surface: #ffffff;
+  --surface-2: #eef1f5;
+  --surface-3: #e5eaf1;
+  --ink: #0b1220;
+  --ink-2: #334155;
+  --muted: #64748b;
+  --rule: #dbe1e9;
+  --rule-strong: #b6c1cf;
+  --accent: #0284c7;
+  --accent-strong: #075985;
+  --accent-ink: #1d4ed8;
+  --accent-wash: #e0f2fe;
+  --fill: #0b1220;
+  --fill-hover: #1e293b;
+  --on-fill: #f8fafc;
+  --on-accent: #04121f;
+  --status: #059669;
+  --status-ring: rgba(5, 150, 105, 0.38);
+  --danger: #b91c1c;
+  --danger-wash: #fee2e2;
+  --focus: #0284c7;
+  --grid-line: rgba(15, 23, 42, 0.045);
+  --glow: rgba(2, 132, 199, 0.07);
+  --glow-2: rgba(2, 132, 199, 0.02);
+  --glow-strong: rgba(2, 132, 199, 0.18);
+  --sweep: rgba(15, 23, 42, 0.035);
+  --shadow-color: rgba(15, 23, 42, 0.16);
+
+  --gutter: clamp(1.25rem, 4vw, 2rem);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dark {
+  color-scheme: dark;
+
+  --paper: #05070a;
+  --surface: #0a0d14;
+  --surface-2: #0f141f;
+  --surface-3: #131a26;
+  --ink: #e6edf7;
+  --ink-2: #a8b3c4;
+  --muted: #7e889b;
+  --rule: rgba(255, 255, 255, 0.08);
+  --rule-strong: rgba(255, 255, 255, 0.18);
+  --accent: #38bdf8;
+  --accent-strong: #7dd3fc;
+  --accent-ink: #a5c2f7;
+  --accent-wash: rgba(56, 189, 248, 0.08);
+  --fill: #ffffff;
+  --fill-hover: #e2e8f0;
+  --on-fill: #05070a;
+  --on-accent: #04121f;
+  --status: #34d399;
+  --status-ring: rgba(52, 211, 153, 0.5);
+  --danger: #fca5a5;
+  --danger-wash: rgba(248, 113, 113, 0.1);
+  --focus: #7dd3fc;
+  --grid-line: rgba(255, 255, 255, 0.022);
+  --glow: rgba(56, 189, 248, 0.05);
+  --glow-2: rgba(14, 165, 233, 0.015);
+  --glow-strong: rgba(56, 189, 248, 0.2);
+  --sweep: rgba(255, 255, 255, 0.035);
+  --shadow-color: rgba(0, 0, 0, 0.55);
+}
+
+@theme inline {
+  --color-page: var(--paper);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+  --color-rule: var(--rule);
+  --color-rule-strong: var(--rule-strong);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-wash: var(--accent-wash);
+  --color-fill: var(--fill);
+  --color-fill-hover: var(--fill-hover);
+  --color-on-fill: var(--on-fill);
+  --color-on-accent: var(--on-accent);
+  --color-status: var(--status);
+  --color-danger: var(--danger);
+  --color-danger-wash: var(--danger-wash);
+  --color-focus: var(--focus);
+  --color-night: #05070a;
+  --color-snow: #f8fafc;
+
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-serif: 'Fraunces Variable', Georgia, 'Times New Roman', serif;
+  --font-mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+
+  /* Mirrors the site's existing breakpoints, mobile-first. */
+  --breakpoint-xs: 32.5rem; /* 520px */
+  --breakpoint-md: 47.5rem; /* 760px */
+  --breakpoint-lg: 57.5rem; /* 920px */
+  --breakpoint-xl: 67.5rem; /* 1080px */
+}
+
+@layer base {
+  *,
+  ::before,
+  ::after,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--rule);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-padding-top: 5.5rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    overflow-x: clip;
+    background-color: var(--paper);
+    background-image:
+      linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+    background-size: 32px 32px;
+    background-attachment: fixed;
+    color: var(--ink-2);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.65;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-serif);
+    color: var(--ink);
+    font-weight: 500;
+    letter-spacing: -0.022em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  code,
+  kbd,
+  pre,
+  samp {
+    font-family: var(--font-mono);
+  }
+
+  img,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  img {
+    height: auto;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .btn,
+    .plate-frame,
+    .shot-frame,
+    .form-surface,
+    .case-note {
+      border: 1px solid ButtonText;
+    }
+
+    .status-dot {
+      background: ButtonText;
+      box-shadow: none;
+    }
+  }
+}
+
+/* The shared page measure: max content width plus the fluid gutter. */
+@utility shell {
+  width: min(100%, calc(80rem + (var(--gutter) * 2)));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* ─── Ambient cursor-tracking glow ─────────────────────────────────────────
+   A 700px radial wash that follows the pointer behind the page content. */
+.ambient-glow {
+  position: fixed;
+  left: -400px;
+  top: -400px;
+  z-index: 1;
+  width: 700px;
+  height: 700px;
+  border-radius: 9999px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle,
+    var(--glow) 0%,
+    var(--glow-2) 45%,
+    transparent 70%
+  );
+  transition: opacity 0.5s ease;
+}
+
+.ambient-glow.is-active {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .ambient-glow {
+    display: none;
+  }
+}
+
+/* ─── Terminal blinking cursor ────────────────────────────────────────────── */
+@keyframes cursor-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.terminal-cursor {
+  display: inline-block;
+  width: 6px;
+  height: 11px;
+  vertical-align: middle;
+  background-color: var(--accent);
+  animation: cursor-blink 1s infinite;
+}
+
+/* ─── Multi-ring radar pulse for the availability badge ───────────────────── */
+@keyframes radar-ping {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  70% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+.radar-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background-color: var(--status-ring);
+  animation: radar-ping 2.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.radar-ring-delayed {
+  animation-delay: 0.7s;
+}
+
+/* ─── Staggered scroll reveal ─────────────────────────────────────────────── */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-on-scroll.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── 3D portrait tilt ────────────────────────────────────────────────────── */
+.perspective-card {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.perspective-card-inner {
+  transform-style: preserve-3d;
+  transition:
+    transform 0.15s ease-out,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+  will-change: transform;
+}
+
+/* ─── Subtle row light sweep ──────────────────────────────────────────────── */
+.hover-light-sweep {
+  position: relative;
+  overflow: hidden;
+}
+
+.hover-light-sweep::after {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  pointer-events: none;
+  content: '';
+  background: linear-gradient(90deg, transparent, var(--sweep), transparent);
+  transition: left 0.6s ease;
+}
+
+.hover-light-sweep:hover::after {
+  left: 150%;
+}
+
+/* ─── Animated navigation underline ───────────────────────────────────────── */
+.nav-underline {
+  position: relative;
+}
+
+.nav-underline::after {
+  position: absolute;
+  bottom: -0.1rem;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  content: '';
+  background: var(--accent);
+  transition: width 0.25s ease;
+}
+
+.nav-underline:hover::after,
+.nav-underline[aria-current='page']::after {
+  width: 100%;
+}
+
+/* ─── Scroll progress bar ─────────────────────────────────────────────────── */
+.scroll-progress-bar {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #0ea5e9, #38bdf8, #818cf8);
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.7);
+  transition: width 75ms ease-out;
+}
+
+/* ─── Reduced-motion overrides ────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-on-scroll {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .radar-ring {
+    animation: none !important;
+  }
+
+  .perspective-card-inner {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .terminal-cursor {
+    animation: none !important;
+    opacity: 1;
+  }
+
+  .ambient-glow {
+    display: none !important;
+  }
+
+  .hover-light-sweep::after {
+    display: none !important;
+  }
+
+  .scroll-progress-bar {
+    transition: none;
+  }
+}
